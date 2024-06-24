@@ -1,0 +1,35 @@
+<a th:href="@{/user/login}" th:text="'로그인'"  sec:authorize="isAnonymous()"></a>
+여기서 sec:authorize 는 권한을 주는거야? 로그인의 경우는 isAnonymous이고 로그아웃의 경우엔 isAthentication 이러던데 무슨 차이야? 초등학생 수준으로 설명해줘
+
+좋아, 간단하게 설명해줄게!
+
+### sec:authorize가 뭐야?
+
+`sec:authorize`는 어떤 조건에 따라 해당 HTML 요소를 보여줄지 말지를 결정하는 거야. 쉽게 말해서, "누가 이 내용을 볼 수 있는지"를 정해주는 거지.
+
+### isAnonymous()는 뭐야?
+
+`isAnonymous()`는 지금 웹사이트를 보고 있는 사람이 로그인하지 않은 상태일 때를 말해. 즉, 로그인 안 한 사람들만 이 내용을 볼 수 있게 하는 거야.
+
+### isAuthenticated()는 뭐야?
+
+`isAuthenticated()`는 지금 웹사이트를 보고 있는 사람이 로그인한 상태일 때를 말해. 즉, 로그인한 사람들만 이 내용을 볼 수 있게 하는 거야.
+
+### 로그인과 로그아웃 예시
+
+- **로그인 버튼**: 로그인하지 않은 사람들(손님)만 볼 수 있어야 해. 그래서 `isAnonymous()`를 써.
+    ```html
+    <a th:href="@{/user/login}" th:text="'로그인'" sec:authorize="isAnonymous()"></a>
+    ```
+    여기서 손님은 "로그인" 버튼을 보고, 로그인 할 수 있어.
+
+- **로그아웃 버튼**: 로그인한 사람들만 볼 수 있어야 해. 그래서 `isAuthenticated()`를 써.
+    ```html
+    <a th:href="@{/user/logout}" th:text="'로그아웃'" sec:authorize="isAuthenticated()"></a>
+    ```
+    여기서 로그인한 사람은 "로그아웃" 버튼을 보고, 로그아웃할 수 있어.
+
+정리하자면, `isAnonymous()`는 "로그인 안 한 사람들만 보여줘"라는 뜻이고, `isAuthenticated()`는 "로그인 한 사람들만 보여줘"라는 뜻이야. 이해하기 쉬웠길 바래!
+
+
+  그렇군 로그인 안 한 사람들은 로그인을 가능하게 하도록, 로그인 한 사람들만 로그아웃 가능하게 해주는 기능이구나!!
