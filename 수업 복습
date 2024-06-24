@@ -1,0 +1,63 @@
+
+@@ 스프링부트 복습
+
+기존 가입하던 방식은 비밀번호를 인코딩 하는 방식이 아니라서 새롭게 가입을 해야한다.
+
+
+
+# UserController 
+	@GetMapping("loginForm")
+		매핑 진행, 요청
+
+# loginForm.html 동작
+	파라미터 id와 pw를 받아 action="/user/login" 으로 이동
+	post 방식으로 이동
+
+
+# login은 SecurityConfig 로 이동	(Controller로 가기 전에 SecurityConfig 파일 동작) 
+				로그인은 시큐리티가 담당하기 때문에
+
+	AuthenticationManager() 메서드 동작
+		UserSecurity.loadUserByUsername() 메서드 실행
+			- 사용자로부터 입력 받은 username으로 DB에 검색한다.
+			- DB에서 검색한 username, password, 권한 정보를 가진 User 객체 생성
+
+	--> 사용자로부터 입력받은 id, pw를 User 객체와 비교해주는 것까지가 SecurityConfig 의 기능이다.
+			true: defaultSuccessUrl로 이동하고 Principal 객체에 username 추가
+			false: 이전 페이지로 이동 
+		
+
+UserEntity를 그냥 바로 리턴하는게 아니라 Optional 객체로 리턴한다.
+	만약 사용자 정보가 없다면 ? 사용자 이름이 틀리면 안 나오게 해야해서
+
+시큐리티는 서버 실행과 동시에 동작하고 있다. (security 서비스와 mvc 서비스)
+로그아웃도 마찬가지로, 시큐리티가 컨트롤 앞에 위치하고 있기 때문에 로그아웃을 바로 실행시켜준다. 
+	그래서 컨트롤에 로그아웃 매핑을 하지 않아도 된다.
+
+==============================
+
+@GeneratedValue(strategy = GenerationType.SEQUENCE)
+
+컴퓨터 프로그램에서 데이터베이스는 정보를 저장하는 큰 책장 같은 거야. 
+이 책장에는 각각의 정보가 저장된 칸들이 있고, 각 칸에는 번호가 붙어 있어. 예를 들어, 우리 반 친구들의 이름을 저장한다고 해볼게.
+
+여기서 시퀀스라는 것은 새로운 정보를 저장할 때마다 번호를 하나씩 순서대로 매겨주는 도구야. 
+마치 새로운 친구가 반에 들어올 때마다 출석번호를 하나씩 더해주는 것과 비슷해. 
+
+	아하 그럼 시퀀스는 자동으로 순번을 부여하는 기능인거군..
+
+```java
+@GeneratedValue(strategy = GenerationType.SEQUENCE)
+```
+
+이 부분은 "이 새로운 정보를 저장할 때, 시퀀스를 사용해서 자동으로 번호를 매겨줘!"라는 의미야. 
+그러면 우리가 직접 번호를 매기지 않아도, 컴퓨터가 알아서 순서대로 번호를 붙여줘서 편리하게 관리할 수 있어.
+
+예를 들어:
+1. 철수
+2. 영희
+3. 민수
+
+새로운 친구가 들어오면, 컴퓨터가 알아서 4번이라고 번호를 붙여주는 거야.
+
+이렇게 하면 데이터베이스에서 각각의 정보를 고유하게 구별할 수 있어져서 매우 편리해져.
